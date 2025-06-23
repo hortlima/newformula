@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Corridas</h1>
+<ul>
+  {% for corrida in corridas %}
+    <li>
+      <a href="{% url 'corrida_detail_html' corrida.id %}">
+        🏁 {{ corrida.nome }} ({{ corrida.data }})
+      </a>
+    </li>
+  {% endfor %}
+
+<a href="{% url 'public_home' %}" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;">← Voltar</a>
+</ul>
+{% endblock %}

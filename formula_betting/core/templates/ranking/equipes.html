@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 800px; margin: 2rem auto; text-align: center;">
+  <h1 style="margin-bottom: 1rem;">Ranking de Equipes 🏁</h1>
+  <table style="width: 100%; border-collapse: collapse; font-size: 1rem;">
+    <thead>
+      <tr style="background: #2c3e50; color: white;">
+        <th style="padding: 0.5rem;">Posição</th>
+        <th style="padding: 0.5rem;">Logo</th>
+        <th style="padding: 0.5rem;">Equipe</th>
+        <th style="padding: 0.5rem;">Pontos</th>
+        <th style="padding: 0.5rem;">Vitórias</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for equipe in ranking_equipes %}
+      <tr style="background: {% cycle '#f9f9f9' '#eeeeee' %}; color: #2c3e50;">
+        <td style="padding: 0.5rem;">{{ forloop.counter }}</td>
+        <td style="padding: 0.5rem;">
+          {% if equipe.logo %}
+            <img src="{{ equipe.logo }}" alt="Logo {{ equipe.nome }}" style="height: 40px;">
+          {% else %}
+            <em>Sem logo</em>
+          {% endif %}
+        </td>
+        <td style="padding: 0.5rem;"><strong>{{ equipe.nome }}</strong></td>
+        <td style="padding: 0.5rem;">{{ equipe.pontos }}</td>
+        <td style="padding: 0.5rem;">{{ equipe.vitorias }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <a href="{% url 'public_home' %}" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;">← Voltar</a>
+</div>
+{% endblock %}

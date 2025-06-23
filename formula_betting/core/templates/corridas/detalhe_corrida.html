@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  .corrida-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .header img {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .header h1 {
+    font-size: 2rem;
+    color: #2c3e50;
+  }
+  .info p {
+    font-size: 1.1rem;
+    margin: 0.3rem 0;
+    color: #34495e;
+  }
+  .caracteristicas {
+    margin-top: 1.2rem;
+    padding: 1rem;
+    background: #eaf1f7;
+    border-left: 5px solid #2980b9;
+    font-style: italic;
+    color: #2c3e50;
+  }
+  .foto-pista {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .foto-pista img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .resultados-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+  }
+  .resultados-table th, .resultados-table td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .resultados-table th {
+    background-color: #2980b9;
+    color: white;
+  }
+  .resultados-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  .resultados-table tr:hover {
+    background-color: #ddd;
+  }
+  a.back-link {
+    display: inline-block;
+    margin-top: 2rem;
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: 600;
+  }
+  a.back-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="corrida-container">
+  <div class="header">
+    {% if corrida.bandeira %}
+      <img src="{{ corrida.bandeira.url }}" alt="Bandeira de {{ corrida.nome }}">
+    {% endif %}
+    <h1>{{ corrida.nome }}</h1>
+  </div>
+
+  <div class="info">
+    <p><strong>Data:</strong> {{ corrida.data|date:"d/m/Y" }}</p>
+    <p><strong>Pista:</strong> {{ corrida.pista }}</p>
+  </div>
+
+  {% if corrida.caracteristicas %}
+  <div class="caracteristicas">
+    <strong>Características:</strong> {{ corrida.caracteristicas }}
+  </div>
+  {% endif %}
+
+  <div class="foto-pista">
+    {% if corrida.foto_pista %}
+      <img src="{{ corrida.foto_pista.url }}" alt="Foto da pista {{ corrida.pista }}">
+    {% else %}
+      <p><em>Foto da pista não disponível.</em></p>
+    {% endif %}
+  </div>
+
+<h2 style="margin-top: 2rem;">Resultados da Corrida</h2>
+<table class="resultados-table">
+  <thead>
+    <tr>
+      <th>Posição</th>
+      <th>Número</th>
+      <th>Piloto</th>
+      <th>Equipe</th>
+      <th>Pontos</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for resultado in resultados %}
+      <tr>
+        <td>{{ resultado.posicao }}</td>
+        <td>{{ resultado.piloto.numero }}</td>
+        <td>{{ resultado.piloto.nome }}</td>
+        <td>
+          {% if resultado.piloto.equipe %}
+            {{ resultado.piloto.equipe.nome }}
+          {% else %}
+            <em>Sem equipe</em>
+          {% endif %}
+        </td>
+        <td>{{ resultado.pontuacao }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<div class="section">
+  <h2>Resultados das Corridas</h2>
+
+  {% for corrida in resultados_corridas %}
+    <div class="corrida-bloco corrida-{{ forloop.counter0 }}" style="margin-bottom: 40px;">
+      <h3>{{ corrida.nome }} – {{ corrida.data|date:"d/m/Y" }}</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Posição</th>
+            <th>Número</th>
+            <th>Piloto</th>
+            <th>Equipe</th>
+            <th>Pontos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for resultado in corrida.resultados.all|dictsort:"posicao" %}
+            <tr>
+              <td>{{ resultado.posicao }}</td>
+              <td>{{ resultado.numero }}</td>
+              <td>{{ resultado.piloto.nome }}</td>
+              <td>
+                {% if resultado.equipe %}
+                  {{ resultado.equipe.nome }}
+                {% else %}
+                  <em>Sem equipe</em>
+                {% endif %}
+              </td>
+              <td>{{ resultado.pontuacao }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% empty %}
+    <p>Não há corridas com resultados disponíveis.</p>
+  {% endfor %}
+</div>
+  <a href="{% url 'lista_corridas' %}" class="back-link">← Voltar para lista de corridas</a>
+</div>
+{% endblock %}
