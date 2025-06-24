@@ -37,8 +37,8 @@ class Corrida(models.Model):
     data = models.DateField()
     pista = models.TextField()
     caracteristicas = models.TextField(blank=True)
-    bandeira = models.ImageField(upload_to='bandeiras/', blank=True, null=True)
-    foto_pista = models.ImageField(upload_to='pistas/', blank=True, null=True)
+    bandeira = models.URLField(max_length=500, blank=True, null=True)   # URLs externas
+    foto_pista = models.URLField(max_length=500, blank=True, null=True) # URLs externas
 
     def __str__(self):
         return self.nome

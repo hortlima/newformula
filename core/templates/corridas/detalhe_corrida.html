@@ -87,7 +87,7 @@
 <div class="corrida-container">
   <div class="header">
     {% if corrida.bandeira %}
-      <img src="{{ corrida.bandeira.url }}" alt="Bandeira de {{ corrida.nome }}">
+      <img src="{{ corrida.bandeira }}" alt="Bandeira de {{ corrida.nome }}">
     {% endif %}
     <h1>{{ corrida.nome }}</h1>
   </div>
@@ -105,7 +105,7 @@
 
   <div class="foto-pista">
     {% if corrida.foto_pista %}
-      <img src="{{ corrida.foto_pista.url }}" alt="Foto da pista {{ corrida.pista }}">
+      <img src="{{ corrida.foto_pista }}" alt="Foto da pista {{ corrida.pista }}">
     {% else %}
       <p><em>Foto da pista não disponível.</em></p>
     {% endif %}
