@@ -35,7 +35,7 @@ INSTALLED_APPS = [
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'Formula',
+    'CLOUD_NAME': 'dhjqox1vm',
     'API_KEY': '991611127697474',
     'API_SECRET': 'A0A-6_pcWcVc9Xa91FzwCATdjLc',
 }
