@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-w03uu6ljuhjj#3zn#b58=67)8-#4v!sd8up(lp5_(&y&d9z^3y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['formula-betting.onrender.com', 'localhost']
+ALLOWED_HOSTS = ['newformula.onrender.com', 'localhost']
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
