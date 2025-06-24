@@ -19,7 +19,7 @@
         <td style="padding: 0.5rem;">{{ forloop.counter }}</td>
         <td style="padding: 0.5rem;">
           {% if equipe.logo %}
-            <img src="{{ equipe.logo.url }}" alt="Logo {{ equipe.nome }}" style="height: 40px;">
+            <img src="{{ equipe.logo }}" alt="Logo {{ equipe.nome }}" style="height: 40px;">
           {% else %}
             <em>Sem logo</em>
           {% endif %}

@@ -6,7 +6,7 @@ from django.utils.text import slugify
 class Equipe(models.Model):
     nome = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
-    logo = models.ImageField(upload_to='logos_equipes/', blank=True, null=True)
+    logo = models.URLField(max_length=500, blank=True, null=True)
     cor = models.CharField(max_length=7, default='#000000')  # ex: #FF0000
 
     def save(self, *args, **kwargs):

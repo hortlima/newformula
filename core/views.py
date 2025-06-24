@@ -67,7 +67,7 @@ class PublicDataHomeView(TemplateView):
         equipe_stats = {
             equipe.id: {
                 'nome': equipe.nome,
-                'logo': equipe.logo.url if equipe.logo else None,
+                'logo': equipe.logo if equipe.logo else None,
                 'cor': equipe.cor,
                 'pontos_corrida': 0,
                 'total': 0,
@@ -236,7 +236,7 @@ class RankingEquipes(TemplateView):
         equipe_stats = {
             equipe.id: {
                 'nome': equipe.nome,
-                'logo': equipe.logo.url if equipe.logo else None,
+                'logo': equipe.logo if equipe.logo else None,
                 'cor': equipe.cor,
                 'pontos': 0,
                 'vitorias': equipe.vitorias,
