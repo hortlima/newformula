@@ -97,7 +97,7 @@
                 <tr style="background-color: {{ equipe.cor }}10;">  {# cor com opacidade #}
                     <td style="display: flex; align-items: center; gap: 12px;">
                         {% if equipe.logo %}
-                            <img src="{{ equipe.logo }}" alt="{{ equipe.nome }}" style="width: 32px; height: 32px; border-radius: 4px;">
+                            <img src="{{ equipe.logo.url }}" alt="{{ equipe.nome }}" style="width: 32px; height: 32px; border-radius: 4px;">
                         {% endif %}
                         <strong style="color: {{ equipe.cor }}">{{ equipe.nome }}</strong>
                     </td>
