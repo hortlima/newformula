@@ -1,1 +1,1 @@
-web: gunicorn formula_betting.wsgi
+web: gunicorn deploy.wsgi

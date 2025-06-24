@@ -70,7 +70,7 @@ MIDDLEWARE = [
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 
-ROOT_URLCONF = 'formula_betting.urls'
+ROOT_URLCONF = 'deploy.urls'
 
 TEMPLATES = [
     {
@@ -90,7 +90,7 @@ TEMPLATES = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-WSGI_APPLICATION = 'formula_betting.wsgi'
+WSGI_APPLICATION = 'deploy.wsgi'
 
 
 # Database
