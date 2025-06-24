@@ -1,36 +1,19 @@
-from pathlib import Path
-import django_heroku
 import os
+from pathlib import Path
 import dj_database_url
+import django_heroku
 
-# Configura banco do Heroku
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL')
-    )
-}
+# Diretório base do projeto
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Ative as configurações do Heroku
-django_heroku.settings(locals())
+# Chave secreta
+SECRET_KEY = os.environ.get("SECRET_KEY", "chave-insegura-para-dev-apenas")
 
-# Adicione o host do heroku no ALLOWED_HOSTS
+# Hosts permitidos
 ALLOWED_HOSTS = ['formula-betting.herokuapp.com', 'localhost']
-
-# DEBUG geralmente False em produção
 DEBUG = False
 
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ),
-}
-
-# Application definition
-
+# Aplicações instaladas
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
@@ -44,10 +27,10 @@ INSTALLED_APPS = [
     'core',
 ]
 
+# Middlewares
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,11 +39,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_URL = '/static/'
-
+# URL raiz
 ROOT_URLCONF = 'formula_betting.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -76,75 +58,68 @@ TEMPLATES = [
     },
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# WSGI
+WSGI_APPLICATION = 'formula_betting.wsgi.application'
 
-WSGI_APPLICATION = 'deploy.wsgi'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+# Banco de dados
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
 
-
-
-# Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
-
+# Validação de senha
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
+# Internacionalização
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
+# Arquivos estáticos e mídia
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
+# Chave de auto primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+}
+
+# Esquema OpenAPI
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Formula Betting API',
+    'DESCRIPTION': 'API pública para visitantes e usuários autenticados.',
+    'VERSION': '1.0.0',
+}
+
+# Configurações do Jazzmin (Admin bonito)
 JAZZMIN_SETTINGS = {
     "site_title": "Fórmula Betting Admin",
     "site_header": "Fórmula Betting",
     "site_brand": "Fórmula Betting",
     "welcome_sign": "Bem-vindo ao Painel Fórmula Betting",
     "copyright": "Fórmula Betting © 2025",
-    "search_model": "core.piloto",  # busca rápida pelo modelo Piloto
+    "search_model": "core.piloto",
 
-    # Tema / cores:
-    "show_ui_builder": True,        # interface visual para configurar Jazzmin
-    "theme": "darkly",              # tema visual (vários disponíveis)
-    
-    # Navegação lateral:
+    "show_ui_builder": True,
+    "theme": "darkly",
+
     "topmenu_links": [
         {"name": "Home", "url": "/", "permissions": ["auth.view_user"]},
         {"name": "Ranking Pilotos", "url": "public/ranking/pilotos/", "permissions": ["core.view_piloto"]},
@@ -154,46 +129,26 @@ JAZZMIN_SETTINGS = {
     "usermenu_links": [
         {"name": "Sair", "url": "/admin/logout/", "icon": "fas fa-sign-out-alt"},
     ],
-    
-    # Menu lateral customizado:
     "order_with_respect_to": [
         "core.equipe",
         "core.piloto",
         "core.corrida",
         "core.resultado",
     ],
-
-    # Mostrar ou esconder ícones:
     "icons": {
         "core.equipe": "fas fa-flag",
         "core.piloto": "fas fa-user",
         "core.corrida": "fas fa-flag-checkered",
         "core.resultado": "fas fa-trophy",
     },
-
-    # Itens do menu colapsados inicialmente?
     "navigation_expanded": True,
-
-    # Mostrar menu lateral ou não
     "show_sidebar": True,
-
-    # Branding do login page
-    "login_logo": None,  # URL para logo customizada na página login (pode ser static url)
+    "login_logo": None,
     "login_logo_dark": None,
-    
-    # Usar ícones FontAwesome
     "icons_pack": "fas",
-
-    # Botão para ir para a dashboard depois de login
     "show_navbar": True,
 }
 
+# Integração com Heroku (deve ser a última linha!)
+django_heroku.settings(locals())
 
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Formula Betting API',
-    'DESCRIPTION': 'API pública para visitantes e usuários autenticados.',
-    'VERSION': '1.0.0',
-}
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

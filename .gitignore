@@ -17,13 +17,6 @@ venv/
 *.sublime-project
 *.sublime-workspace
 
-# Django
-*.sqlite3
-db.sqlite3
-staticfiles/
-media/
-*.log
-
 # Compiled static files
 *.css.map
 *.js.map
