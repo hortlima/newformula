@@ -1,1 +1,1 @@
-gunicorn formula-betting.wsgi
+gunicorn formula.wsgi
