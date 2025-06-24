@@ -25,7 +25,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_spectacular',
     'core',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'Formula',
+    'API_KEY': '991611127697474',
+    'API_SECRET': 'A0A-6_pcWcVc9Xa91FzwCATdjLc',
+}
 
 # Middlewares
 MIDDLEWARE = [
