@@ -21,11 +21,13 @@ cloudinary.config(
 )
 
 for equipe in Equipe.objects.all():
-    if equipe.logo and not equipe.logo.url.startswith('http'):
-        upload_result = cloudinary.uploader.upload(
-            equipe.logo.path,
-            folder='logos_equipes'
-        )
-        equipe.logo = upload_result['secure_url']
-        equipe.save()
-        print(f"Logo da equipe '{equipe.nome}' enviado com sucesso!")
+    if equipe.logo and not str(equipe.logo).startswith('http'):
+        try:
+            upload_result = cloudinary.uploader.upload(equipe.logo.path, folder='logos_equipes')
+            equipe.logo = upload_result['secure_url']
+            equipe.save()
+            print(f"✅ Logo atualizado: {equipe.nome}")
+        except Exception as e:
+            print(f"❌ Erro com {equipe.nome}: {e}")
+    else:
+        print(f"ℹ️ Ignorado (já em Cloudinary): {equipe.nome}")
