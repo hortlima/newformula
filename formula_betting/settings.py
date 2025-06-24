@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY", "chave-insegura-para-dev-apenas")
 
 # Hosts permitidos
-ALLOWED_HOSTS = ['formula-betting.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = ['formula-betting-2aa7aceb65d3.herokuapp.com', 'localhost']
 DEBUG = False
 
 # Aplicações instaladas
