@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtualenv
+venv/
+.env
+.env.*
+
+# Editor / IDE
+.vscode/
+*.code-workspace
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Django
+*.sqlite3
+db.sqlite3
+staticfiles/
+media/
+*.log
+
+# Compiled static files
+*.css.map
+*.js.map
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Gunicorn socket (caso use)
+gunicorn.sock
+
+# Render build artifacts
+build/
