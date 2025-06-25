@@ -1,90 +1,234 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
 <style>
-  .corrida-container {
-    max-width: 700px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #f4f4f4;
+    color: #2c3e50;
   }
+
+  .corrida-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  }
+
   .header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    border-bottom: 2px solid #ddd;
+    gap: 1.5rem;
+    border-bottom: 3px solid #e10600;
     padding-bottom: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
+
   .header img {
     width: 80px;
     height: auto;
-    border-radius: 8px;
+    border-radius: 10px;
     object-fit: cover;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
   }
+
   .header h1 {
-    font-size: 2rem;
-    color: #2c3e50;
+    font-size: 2.2rem;
+    color: #e10600;
+    margin: 0;
   }
-  .info p {
+
+  .info {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
     font-size: 1.1rem;
-    margin: 0.3rem 0;
-    color: #34495e;
+    margin-bottom: 1.5rem;
   }
+
+  .info p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .info p i {
+    color: #e10600;
+  }
+
   .caracteristicas {
-    margin-top: 1.2rem;
+    background: #fff5f5;
+    border-left: 6px solid #e10600;
     padding: 1rem;
-    background: #eaf1f7;
-    border-left: 5px solid #2980b9;
+    border-radius: 12px;
     font-style: italic;
-    color: #2c3e50;
+    margin-bottom: 2rem;
   }
+
   .foto-pista {
-    margin-top: 1.5rem;
     text-align: center;
+    margin-bottom: 2rem;
   }
+
   .foto-pista img {
     max-width: 100%;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
   }
-  .resultados-table {
+
+  h2 {
+    font-size: 1.6rem;
+    color: #e10600;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 6px;
+  }
+
+  /* Resultados principais e históricos - estilo igual */
+
+  table.resultados-table,
+  .corrida-bloco table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 2rem;
+    border-collapse: separate;
+    border-spacing: 0 8px;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
   }
-  .resultados-table th, .resultados-table td {
-    border: 1px solid #ddd;
-    padding: 8px 12px;
-    text-align: left;
-  }
-  .resultados-table th {
-    background-color: #2980b9;
+
+  table.resultados-table thead tr,
+  .corrida-bloco table thead tr {
+    background-color: #e10600;
     color: white;
+    font-weight: 700;
+    border-radius: 12px;
   }
-  .resultados-table tr:nth-child(even) {
-    background-color: #f2f2f2;
+
+  table.resultados-table thead th,
+  .corrida-bloco table thead th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 1.1rem;
   }
-  .resultados-table tr:hover {
-    background-color: #ddd;
+
+  table.resultados-table tbody tr,
+  .corrida-bloco table tbody tr {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(225, 6, 0, 0.15);
+    border-radius: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
-  a.back-link {
+
+  table.resultados-table tbody tr:hover,
+  .corrida-bloco table tbody tr:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 15px rgba(225, 6, 0, 0.3);
+    background: #fff0f0;
+  }
+
+  table.resultados-table tbody td,
+  .corrida-bloco table tbody td {
+    padding: 14px 20px;
+    vertical-align: middle;
+  }
+
+  /* Destaque para posições Top 3 */
+  table.resultados-table tbody tr:nth-child(1),
+  .corrida-bloco table tbody tr:nth-child(1) {
+    background: linear-gradient(90deg, #ffb347, #ffcc33);
+    font-weight: 700;
+    color: #4a2c00;
+    box-shadow: 0 6px 20px rgba(255, 179, 71, 0.5);
+  }
+  table.resultados-table tbody tr:nth-child(2),
+  .corrida-bloco table tbody tr:nth-child(2) {
+    background: linear-gradient(90deg, #c0c0c0, #d3d3d3);
+    font-weight: 700;
+    color: #3b3b3b;
+    box-shadow: 0 6px 20px rgba(192, 192, 192, 0.5);
+  }
+  table.resultados-table tbody tr:nth-child(3),
+  .corrida-bloco table tbody tr:nth-child(3) {
+    background: linear-gradient(90deg, #cd7f32, #d9965e);
+    font-weight: 700;
+    color: #3a1a00;
+    box-shadow: 0 6px 20px rgba(205, 127, 50, 0.5);
+  }
+
+  /* Posição com fonte maior e destaque */
+  table.resultados-table tbody td:first-child,
+  .corrida-bloco tbody td:first-child {
+    font-weight: 900;
+    font-size: 1.3rem;
+    width: 60px;
+  }
+
+  /* Número com estilo tipo badge */
+  table.resultados-table tbody td:nth-child(2),
+  .corrida-bloco tbody td:nth-child(2) {
+    font-weight: 700;
+    color: #e10600;
+    width: 70px;
+  }
+
+  /* Piloto em negrito */
+  table.resultados-table tbody td:nth-child(3),
+  .corrida-bloco tbody td:nth-child(3) {
+    font-weight: 700;
+  }
+
+  /* Equipe com itálico e cor suave */
+  table.resultados-table tbody td:nth-child(4),
+  .corrida-bloco tbody td:nth-child(4) {
+    font-style: italic;
+    color: #777;
+  }
+
+  /* Pontuação com cor forte */
+  table.resultados-table tbody td:nth-child(5),
+  .corrida-bloco tbody td:nth-child(5) {
+    font-weight: 700;
+    color: #e10600;
+    width: 70px;
+    text-align: center;
+  }
+
+  /* Bloco histórico */
+  .corrida-bloco {
+    margin-top: 3rem;
+  }
+
+  .corrida-bloco h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    color: #333;
+  }
+
+  .back-link {
     display: inline-block;
-    margin-top: 2rem;
+    background: #e10600;
+    color: white;
     text-decoration: none;
-    color: #2980b9;
-    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background 0.3s ease;
   }
-  a.back-link:hover {
-    text-decoration: underline;
+
+  .back-link:hover {
+    background: #c00500;
   }
+
 </style>
 
 <div class="corrida-container">
+
+  <!-- Header com bandeira -->
   <div class="header">
     {% if corrida.bandeira %}
       <img src="{{ corrida.bandeira }}" alt="Bandeira de {{ corrida.nome }}">
@@ -92,17 +236,20 @@
     <h1>{{ corrida.nome }}</h1>
   </div>
 
+  <!-- Informações -->
   <div class="info">
-    <p><strong>Data:</strong> {{ corrida.data|date:"d/m/Y" }}</p>
-    <p><strong>Pista:</strong> {{ corrida.pista }}</p>
+    <p><i>📅</i><strong>Data:</strong> {{ corrida.data|date:"d/m/Y" }}</p>
+    <p><i>🛣️</i><strong>Pista:</strong> {{ corrida.pista }}</p>
   </div>
 
+  <!-- Características -->
   {% if corrida.caracteristicas %}
   <div class="caracteristicas">
     <strong>Características:</strong> {{ corrida.caracteristicas }}
   </div>
   {% endif %}
 
+  <!-- Foto da pista -->
   <div class="foto-pista">
     {% if corrida.foto_pista %}
       <img src="{{ corrida.foto_pista }}" alt="Foto da pista {{ corrida.pista }}">
@@ -111,75 +258,80 @@
     {% endif %}
   </div>
 
-<h2 style="margin-top: 2rem;">Resultados da Corrida</h2>
-<table class="resultados-table">
-  <thead>
-    <tr>
-      <th>Posição</th>
-      <th>Número</th>
-      <th>Piloto</th>
-      <th>Equipe</th>
-      <th>Pontos</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for resultado in resultados %}
+  <!-- Resultados principais -->
+  <h2>🏁 Resultados da Corrida</h2>
+  <table class="resultados-table" aria-label="Resultados da corrida">
+    <thead>
       <tr>
-        <td>{{ resultado.posicao }}</td>
-        <td>{{ resultado.piloto.numero }}</td>
-        <td>{{ resultado.piloto.nome }}</td>
-        <td>
-          {% if resultado.piloto.equipe %}
-            {{ resultado.piloto.equipe.nome }}
-          {% else %}
-            <em>Sem equipe</em>
-          {% endif %}
-        </td>
-        <td>{{ resultado.pontuacao }}</td>
+        <th scope="col">Posição</th>
+        <th scope="col">Número</th>
+        <th scope="col">Piloto</th>
+        <th scope="col">Equipe</th>
+        <th scope="col">Pontos</th>
       </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<div class="section">
-  <h2>Resultados das Corridas</h2>
+    </thead>
+    <tbody>
+      {% for resultado in resultados %}
+        <tr>
+          <td>{{ resultado.posicao }}</td>
+          <td>#{{ resultado.piloto.numero }}</td>
+          <td>{{ resultado.piloto.nome }}</td>
+          <td>
+            {% if resultado.piloto.equipe %}
+              {{ resultado.piloto.equipe.nome }}
+            {% else %}
+              <em>Sem equipe</em>
+            {% endif %}
+          </td>
+          <td>{{ resultado.pontuacao }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-  {% for corrida in resultados_corridas %}
-    <div class="corrida-bloco corrida-{{ forloop.counter0 }}" style="margin-bottom: 40px;">
-      <h3>{{ corrida.nome }} – {{ corrida.data|date:"d/m/Y" }}</h3>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Posição</th>
-            <th>Número</th>
-            <th>Piloto</th>
-            <th>Equipe</th>
-            <th>Pontos</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for resultado in corrida.resultados.all|dictsort:"posicao" %}
-            <tr>
-              <td>{{ resultado.posicao }}</td>
-              <td>{{ resultado.numero }}</td>
-              <td>{{ resultado.piloto.nome }}</td>
-              <td>
-                {% if resultado.equipe %}
-                  {{ resultado.equipe.nome }}
-                {% else %}
-                  <em>Sem equipe</em>
-                {% endif %}
-              </td>
-              <td>{{ resultado.pontuacao }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <!-- Resultados adicionais (Histórico das corridas) -->
+  {% if resultados_corridas %}
+    <div class="section">
+      <h2>📊 Histórico das Corridas</h2>
+      {% for corrida_hist in resultados_corridas %}
+        <div class="corrida-bloco corrida-{{ forloop.counter0 }}">
+          <h3>{{ corrida_hist.nome }} – {{ corrida_hist.data|date:"d/m/Y" }}</h3>
+          <table aria-label="Resultados da corrida {{ corrida_hist.nome }}">
+            <thead>
+              <tr>
+                <th scope="col">Posição</th>
+                <th scope="col">Número</th>
+                <th scope="col">Piloto</th>
+                <th scope="col">Equipe</th>
+                <th scope="col">Pontos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for resultado in corrida_hist.resultados.all|dictsort:"posicao" %}
+                <tr>
+                  <td>{{ resultado.posicao }}</td>
+                  <td>#{{ resultado.numero }}</td>
+                  <td>{{ resultado.piloto.nome }}</td>
+                  <td>
+                    {% if resultado.equipe %}
+                      {{ resultado.equipe.nome }}
+                    {% else %}
+                      <em>Sem equipe</em>
+                    {% endif %}
+                  </td>
+                  <td>{{ resultado.pontuacao }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endfor %}
     </div>
-  {% empty %}
-    <p>Não há corridas com resultados disponíveis.</p>
-  {% endfor %}
-</div>
-  <a href="{% url 'lista_corridas' %}" class="back-link">← Voltar para lista de corridas</a>
+  {% endif %}
+
+  <div style="text-align: center; margin-top: 3rem;">
+    <a href="{% url 'lista_corridas' %}" class="back-link">← Voltar para lista de corridas</a>
+  </div>
+
 </div>
 {% endblock %}

@@ -1,16 +1,98 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Corridas</h1>
-<ul>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+
+  .corridas-container {
+    max-width: 900px;
+    margin: 4rem auto 2rem;
+    padding: 0 20px;
+  }
+
+  .corridas-container h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #e10600;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .corrida-card {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 6px solid #e10600;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+  }
+
+  .corrida-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
+
+  .corrida-card a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .corrida-card a span {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .back-button {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .back-button a {
+    background-color: #e10600;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+  .back-button a:hover {
+    background-color: #c00500;
+  }
+</style>
+
+<div class="corridas-container">
+  <h1>🏁 Corridas da Temporada</h1>
+
   {% for corrida in corridas %}
-    <li>
+    <div class="corrida-card">
       <a href="{% url 'corrida_detail_html' corrida.id %}">
-        🏁 {{ corrida.nome }} ({{ corrida.data }})
+        {{ corrida.nome }}
+        <span>📅 {{ corrida.data|date:"d/m/Y" }}</span>
       </a>
-    </li>
+    </div>
+  {% empty %}
+    <p style="text-align: center;">Nenhuma corrida cadastrada ainda.</p>
   {% endfor %}
 
-<a href="{% url 'public_home' %}" class="btn btn-primary" style="margin-top: 2rem; display: inline-block;">← Voltar</a>
-</ul>
+  <div class="back-button">
+    <a href="{% url 'public_home' %}">← Voltar ao Início</a>
+  </div>
+</div>
 {% endblock %}
