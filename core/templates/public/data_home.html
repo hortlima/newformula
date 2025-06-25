@@ -1,65 +1,189 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <style>
-  .welcome {
-    text-align: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(to right, #1f4037, #99f2c8);
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+
+  body {
+    font-family: 'Orbitron', sans-serif;
+  }
+
+  .f1-home {
+    background: linear-gradient(to right, #000000, #e10600);
     color: white;
+    padding: 4rem 2rem;
     border-radius: 16px;
-    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
   }
-  .welcome h1 {
-    font-size: 2.8rem;
+
+  .f1-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 200%;
+    height: 100%;
+    background-image: url("{% static 'admin/img/f1_logo_white.png' %}");
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 150px;
+    opacity: 0.05;
+    pointer-events: none;
+  }
+
+  .f1-home h1 {
+    font-size: 3rem;
     margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
-  .welcome p {
+
+  .f1-home p {
     font-size: 1.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
-  .buttons {
+
+  .f1-buttons {
     display: flex;
     justify-content: center;
-    gap: 2rem;
     flex-wrap: wrap;
+    gap: 1.5rem;
   }
-  .buttons a {
+
+  .f1-buttons a {
     background-color: white;
-    color: #1f4037;
-    text-decoration: none;
-    padding: 1rem 2rem;
+    color: #e10600;
     font-weight: bold;
-    border-radius: 8px;
-    transition: 0.3s;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
   }
-  .buttons a:hover {
-    background-color: #f1f1f1;
+
+  .f1-buttons a:hover {
+    background-color: #e10600;
+    color: white;
+    border: 2px solid white;
     transform: scale(1.05);
   }
+
   .dashboard-link {
-    text-align: center;
-    margin-top: 2rem;
-  }
-  .dashboard-link a {
+    margin-top: 3rem;
     font-size: 1rem;
-    color: #2c3e50;
+  }
+
+  .dashboard-link a {
+    color: #ffffff;
     text-decoration: underline;
   }
+
+  .dashboard-link a:hover {
+    color: #f1c40f;
+  }
+
+  /* === Lista times adicionada === */
+  .teams-container {
+    max-width: 900px;
+    margin: 3rem auto 6rem;
+    padding: 2rem;
+    background: #15151e;
+    color: white;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    text-align: left;
+  }
+
+  .teams-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #e10600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  ul.team-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  ul.team-list li {
+    background: #222233;
+    margin-bottom: 12px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(225, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+
+  ul.team-list li:hover {
+    background-color: #e10600;
+    cursor: pointer;
+  }
+
+  ul.team-list li img {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: contain;
+    margin-right: 20px;
+    box-shadow: 0 0 5px rgba(255,255,255,0.7);
+  }
+
+  ul.team-list li a {
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+    text-decoration: none;
+    flex-grow: 1;
+  }
+
+  ul.team-list li a:hover {
+    text-decoration: underline;
+  }
+
 </style>
 
-<div class="welcome">
-  <h1>Bem-vindo ao Fórmula Betting! 🏎️</h1>
-  <p>Veja os rankings dos pilotos e equipes, ou confira os resultados completos das corridas.</p>
+<div class="f1-home">
+  <h1>🏁 Bem-vindo ao Fórmula Betting</h1>
+  <p>O Webcampeonato mais legal da internet, sejam bem vindos!</p>
 
-  <div class="buttons">
+  <div class="f1-buttons">
     <a href="{% url 'ranking_pilotos' %}">🔝 Ranking de Pilotos</a>
     <a href="{% url 'ranking_equipes' %}">🏆 Ranking de Equipes</a>
-    <a href="{% url 'lista_corridas' %}">🏎️ Corridas</a>
+    <a href="{% url 'lista_corridas' %}">🗓️ Corridas</a>
   </div>
 
   <div class="dashboard-link">
     <a href="{% url 'public_home_dados' %}">Ver dashboard de dados completos →</a>
   </div>
 </div>
+
+<!-- === Lista dos 11 times aqui === -->
+<div class="teams-container">
+  <h2>🏎️ Times da Temporada</h2>
+  <ul class="team-list">
+    {% for equipe in equipes %}
+      <li>
+        {% if equipe.logo %}
+          <img src="{{ equipe.logo }}" alt="Logo {{ equipe.nome }}">
+        {% else %}
+          <img src="{% static 'default_team_logo.png' %}" alt="Sem logo">
+        {% endif %}
+        <a href="{% url 'equipe_detail' equipe.slug %}">{{ equipe.nome }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
 {% endblock %}
+
+

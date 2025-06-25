@@ -1,0 +1,32 @@
+/* static/css/admin_custom.css */
+
+@font-face {
+  font-family: 'Formula1 Display-Regular';
+  src: url('../fonts/Formula1-Regular.ttf') format('truetype');
+}
+
+:root {
+  --f1-red: #e10600;
+  --f1-black: #15151e;
+  --f1-white: #ffffff;
+}
+
+body {
+  background-color: var(--f1-black);
+  color: var(--f1-white);
+  font-family: 'Formula1 Display-Regular', sans-serif;
+}
+
+#header {
+  background-color: var(--f1-red);
+  border-bottom: 3px solid #ffffff;
+}
+
+#branding h1, #branding h1 a {
+  color: var(--f1-white) !important;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.module h2 {
+  background-color

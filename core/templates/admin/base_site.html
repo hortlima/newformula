@@ -3,8 +3,18 @@
 
 {% block title %}Fórmula Betting Admin{% endblock %}
 
+{% block extrastyle %}
+  <link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin_custom.css' %}">
+{% endblock %}
+
 {% block branding %}
-<h1 id="site-name"><a href="{% url 'admin:index' %}">🏁 Fórmula Betting Admin</a></h1>
+  <div id="branding" style="display: flex; align-items: center;">
+    <img src="{% static 'admin/img/f1_logo_white.png' %}" alt="Fórmula 1" height="40" style="margin-right: 10px;">
+    <h1 id="site-name" style="margin: 0;">
+      <a href="{% url 'admin:index' %}">🏁 Fórmula Betting Admin</a>
+    </h1>
+  </div>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}
+

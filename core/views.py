@@ -45,13 +45,16 @@ def calcular_ranking_equipes():
     return ranking
 
 class PublicHomeView(TemplateView):
-    template_name = "public/data_home.html"
+    template_name = "public/data_home.html"  # ou "home_data.html", conforme seu arquivo
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Adicione aqui os mesmos dados que você tinha no PublicHomeView
-        # ou apenas coloque uma mensagem de boas-vindas simples
-        context["titulo"] = "Bem-vindo ao Formula Betting"
+        # Adiciona o título (opcional)
+        context["titulo"] = "Bem-vindo ao Fórmula Betting"
+
+        # Busca as equipes ordenadas por nome (ou outra ordenação que quiser)
+        context["equipes"] = Equipe.objects.all().order_by('nome')
+
         return context
 
 class PublicDataHomeView(TemplateView):
@@ -233,22 +236,38 @@ class RankingEquipes(TemplateView):
         equipes = Equipe.objects.all()
         resultados = Resultado.objects.select_related('piloto', 'piloto__equipe')
 
-        equipe_stats = {
-            equipe.id: {
+        equipe_stats = {}
+        for equipe in equipes:
+            # Tratar logo para caso seja string ou ImageField
+            if equipe.logo:
+                if hasattr(equipe.logo, 'url'):
+                    logo_url = equipe.logo.url
+                else:
+                    logo_url = equipe.logo  # já é string
+            else:
+                logo_url = None
+
+            equipe_stats[equipe.id] = {
                 'nome': equipe.nome,
-                'logo': equipe.logo if equipe.logo else None,
+                'logo': logo_url,
                 'cor': equipe.cor,
                 'pontos': 0,
                 'vitorias': equipe.vitorias,
-            } for equipe in equipes
-        }
+            }
 
+        # Somar pontos de cada equipe com base nos resultados dos pilotos
         for resultado in resultados:
             equipe_id = resultado.piloto.equipe_id
             if equipe_id in equipe_stats:
                 equipe_stats[equipe_id]['pontos'] += resultado.pontuacao()
 
+        # Ordenar ranking por pontos e vitórias
         ranking = sorted(equipe_stats.values(), key=lambda x: (-x['pontos'], -x['vitorias']))
+
+        # Calcular diferença para o líder
+        lider_pontos = ranking[0]['pontos'] if ranking else 0
+        for equipe in ranking:
+            equipe['diff_lider'] = lider_pontos - equipe['pontos']
 
         context['ranking_equipes'] = ranking
         context['titulo'] = "Ranking de Equipes"
