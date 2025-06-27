@@ -14,12 +14,16 @@ class EquipeAdmin(admin.ModelAdmin):
 
     def logo_preview(self, obj):
         if obj.logo:
-            return format_html('<img src="{}" style="height:50px; border-radius:6px;" />', obj.logo.url)
+            return format_html('<img src="{}" style="height:50px; border-radius:6px;" />', obj.logo)
         return "-"
     logo_preview.short_description = "Prévia da Logo"
 
     def cor_badge(self, obj):
-        return format_html('<span style="background:{}; color:white; padding:2px 8px; border-radius:8px;">{}</span>', obj.cor, obj.cor)
+        return format_html(
+            '<span style="background:{}; color:white; padding:2px 8px; border-radius:8px;">{}</span>',
+            obj.cor,
+            obj.cor
+        )
     cor_badge.short_description = "Cor"
 
 @admin.register(Piloto)
