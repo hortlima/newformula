@@ -1,89 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ titulo }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
+{% extends "base.html" %}
+{% load static %}
 
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 40px;
-            text-align: center;
-            font-weight: 800;
-        }
+{% block title %}{{ titulo }}{% endblock %}
 
-        .section {
-            margin-bottom: 60px;
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 10px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px 16px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f9fafb;
-            font-weight: 600;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f7f7f7;
-        }
-
-        @media (max-width: 768px) {
-            table, thead, tbody, th, td, tr {
-                display: block;
-            }
-            th {
-                display: none;
-            }
-            td {
-                position: relative;
-                padding-left: 50%;
-                border: none;
-            }
-            td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 16px;
-                top: 12px;
-                font-weight: bold;
-                color: #555;
-            }
-        }
-    </style>
-</head>
-<body>
-    <h1>{{ titulo }}</h1>
+{% block content %}
+<h1>{{ titulo }}</h1>
 
 <div class="section">
-    <h2>Ranking das Equipes</h2>
+    <h2>🏎️ Ranking das Equipes</h2>
     <table>
         <thead>
             <tr>
@@ -94,10 +18,10 @@
         </thead>
         <tbody>
             {% for equipe in ranking_equipes %}
-                <tr style="background-color: {{ equipe.cor }}10;">  {# cor com opacidade #}
+                <tr style="background-color: {{ equipe.cor }}20;">
                     <td style="display: flex; align-items: center; gap: 12px;">
                         {% if equipe.logo %}
-                            <img src="{{ equipe.logo }}" alt="{{ equipe.nome }}" style="width: 32px; height: 32px; border-radius: 4px;">
+                            <img src="{{ equipe.logo }}" alt="{{ equipe.nome }}" style="width: 32px; height: 32px;">
                         {% endif %}
                         <strong style="color: {{ equipe.cor }}">{{ equipe.nome }}</strong>
                     </td>
@@ -110,7 +34,7 @@
 </div>
 
 <div class="section">
-    <h2>Ranking dos Pilotos</h2>
+    <h2>🏁 Ranking dos Pilotos</h2>
     <table>
         <thead>
             <tr>
@@ -122,9 +46,9 @@
         </thead>
         <tbody>
             {% for piloto in ranking_pilotos %}
-                <tr style="background-color: {{ piloto.cor }}10;">
+                <tr style="background-color: {{ piloto.cor }}20;">
                     <td data-label="Piloto" style="font-weight: 600;">
-                        <span style="display:inline-block; width: 16px; height: 16px; background-color: {{ piloto.cor }}; border-radius: 4px; margin-right: 8px; vertical-align: middle;"></span>
+                        <span style="display:inline-block; width: 16px; height: 16px; background-color: {{ piloto.cor }}; border-radius: 4px; margin-right: 8px;"></span>
                         {{ piloto.nome }}
                     </td>
                     <td data-label="Número">#{{ piloto.numero }}</td>
@@ -136,21 +60,25 @@
     </table>
 </div>
 
-    <div class="section">
-    <h2>Filtrar Corrida</h2>
-    <select id="select-corrida" style="padding: 10px; font-size: 1rem; border-radius: 8px;">
-        <option value="todas">Mostrar todas</option>
+<div class="section">
+    <h2>🎯 Filtrar Corrida</h2>
+    <select id="select-corrida">
         {% for corrida in resultados_corridas %}
-            <option value="corrida-{{ forloop.counter0 }}">{{ corrida.corrida }} – {{ corrida.data|date:"d/m/Y" }}</option>
+            <option value="corrida-{{ forloop.counter0 }}" {% if forloop.last %}selected{% endif %}>
+                {{ corrida.corrida }} – {{ corrida.data|date:"d/m/Y" }}
+            </option>
         {% endfor %}
+        <option value="todas">Mostrar todas</option>
     </select>
+
+    <a href="{% url 'public_home' %}" class="btn-voltar">⬅ Voltar ao Início</a>
 </div>
 
 <div class="section">
-    <h2>Resultados das Corridas</h2>
+    <h2>📊 Resultados das Corridas</h2>
     {% for corrida in resultados_corridas %}
         <div class="corrida-bloco corrida-{{ forloop.counter0 }}" style="margin-bottom: 40px;">
-            <h3>{{ corrida.corrida }} – {{ corrida.data|date:"d/m/Y" }}</h3>
+            <h3 style="color: white;">{{ corrida.corrida }} – {{ corrida.data|date:"d/m/Y" }}</h3>
             <table>
                 <thead>
                     <tr>
@@ -163,11 +91,11 @@
                 </thead>
                 <tbody>
                     {% for resultado in corrida.resultados %}
-                        <tr style="background-color: {{ resultado.cor }}10;">
+                        <tr style="background-color: {{ resultado.cor }}20;">
                             <td>{{ resultado.posicao }}</td>
                             <td>#{{ resultado.numero }}</td>
                             <td>
-                                <span style="display:inline-block; width: 16px; height: 16px; background-color: {{ resultado.cor }}; border-radius: 4px; margin-right: 8px; vertical-align: middle;"></span>
+                                <span style="display:inline-block; width: 16px; height: 16px; background-color: {{ resultado.cor }}; border-radius: 4px; margin-right: 8px;"></span>
                                 <span style="color: {{ resultado.cor }};">{{ resultado.piloto }}</span>
                             </td>
                             <td>{{ resultado.equipe }}</td>
@@ -179,21 +107,25 @@
         </div>
     {% endfor %}
 </div>
+{% endblock %}
 
-
+{% block extra_js %}
 <script>
     const select = document.getElementById('select-corrida');
     const blocos = document.querySelectorAll('.corrida-bloco');
 
-    select.addEventListener('change', function () {
-        const valor = this.value;
-
-        blocos.forEach((bloco, idx) => {
-            if (valor === 'todas') {
-                bloco.style.display = 'block';
-            } else {
-                bloco.style.display = bloco.classList.contains(valor) ? 'block' : 'none';
-            }
+    function filtrarCorrida(valor) {
+        blocos.forEach(bloco => {
+            bloco.style.display = (valor === 'todas' || bloco.classList.contains(valor)) ? 'block' : 'none';
         });
+    }
+
+    select.addEventListener('change', function () {
+        filtrarCorrida(this.value);
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        filtrarCorrida(select.value);
     });
 </script>
+{% endblock %}

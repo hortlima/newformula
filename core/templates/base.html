@@ -4,54 +4,84 @@
     <meta charset="UTF-8" />
     <title>{% block title %}Formula Betting{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Link para CSS externo, Google Fonts, Bootstrap etc podem ficar aqui -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            --f1-red: #e10600;
+            --f1-black: #0d0d0d;
+            --f1-grey: #1c1c1c;
+            --f1-white: #f1f1f1;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--f1-black);
+            color: var(--f1-white);
             margin: 0;
-            padding: 0 1rem;
-            color: #333;
+            padding: 0;
         }
+
         header {
-            background: #2980b9;
+            background: var(--f1-red);
             color: white;
-            padding: 1rem 0;
+            padding: 1.2rem 0;
             text-align: center;
-            font-weight: 600;
-            font-size: 1.5rem;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-weight: 700;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 4px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
+
         main {
-            max-width: 900px;
+            max-width: 960px;
             margin: 2rem auto;
-            background: white;
+            background: var(--f1-grey);
             padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
         }
+
         footer {
             text-align: center;
-            font-size: 0.9rem;
-            padding: 1rem 0;
+            font-size: 0.85rem;
+            padding: 1.5rem 0;
+            color: #bbb;
+            margin-top: 4rem;
+            border-top: 1px solid #444;
+        }
+
+        footer p:first-child {
+            margin-bottom: 0.3rem;
             color: #888;
-            margin-top: 3rem;
-            border-top: 1px solid #ddd;
         }
+
         a {
-            color: #2980b9;
+            color: var(--f1-red);
             text-decoration: none;
+            font-weight: bold;
         }
+
         a:hover {
             text-decoration: underline;
+        }
+
+        .f1-stripe {
+            height: 4px;
+            background: linear-gradient(to right, var(--f1-red) 20%, white 20%, white 40%, var(--f1-red) 40%, var(--f1-red) 60%, white 60%, white 80%, var(--f1-red) 80%);
+            margin-bottom: -4px;
         }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body>
+
+    <div class="f1-stripe"></div>
+    
     <header>
-        Formula Betting
+        🏁 Formula Betting
     </header>
 
     <main>
@@ -61,6 +91,9 @@
     </main>
 
     <footer>
+        <p>
+            Todos os direitos comerciais envolvendo Corridas e Equipes são de responsabilidade da Formula One Group ® - 1974
+        </p>
         &copy; 2025 Formula Betting - Todos os direitos reservados
     </footer>
 

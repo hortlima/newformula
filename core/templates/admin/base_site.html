@@ -5,6 +5,67 @@
 
 {% block extrastyle %}
   <link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin_custom.css' %}">
+  <style>
+    /* Fundo e texto do cabeçalho */
+    #header {
+      background-color: #000; /* preto Fórmula 1 */
+      border-bottom: 4px solid #e10600; /* vermelho Fórmula 1 */
+      color: white;
+    }
+
+    #header h1, #branding h1, #branding h1 a {
+      color: white !important;
+    }
+
+    /* Links do admin */
+    #user-tools a {
+      color: #e10600 !important;
+      font-weight: bold;
+    }
+
+    #user-tools a:hover {
+      color: #ff4d4d !important;
+    }
+
+    /* Rodapé */
+    #footer {
+      background: #000;
+      color: #999;
+      font-size: 0.8rem;
+    }
+
+    /* Título da página */
+    .module h2, .module caption {
+      color: #e10600;
+    }
+
+    /* Botões e destaques */
+    .button, input[type="submit"], .submit-row input {
+      background-color: #e10600;
+      border: none;
+      color: white;
+    }
+
+    .button:hover, input[type="submit"]:hover, .submit-row input:hover {
+      background-color: #ff1a1a;
+    }
+
+    /* Tabela do admin */
+    .module table th {
+      background: #111;
+      color: #fff;
+    }
+
+    .module table td {
+      background: #f9f9f9;
+    }
+
+    /* Menu lateral (caso use Jazzmin ou algo similar) */
+    .nav-sidebar li a:hover, .nav-sidebar li.active a {
+      background-color: #e10600;
+      color: white !important;
+    }
+  </style>
 {% endblock %}
 
 {% block branding %}

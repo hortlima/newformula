@@ -55,7 +55,7 @@ class PublicHomeView(TemplateView):
         # Busca as equipes ordenadas por nome (ou outra ordenação que quiser)
         context["equipes"] = Equipe.objects.all().order_by('nome')
 
-        return context
+        return context  
 
 class PublicDataHomeView(TemplateView):
     template_name = "public/dados_completos.html"
