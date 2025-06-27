@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ equipe.nome }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ equipe.nome }}{% endblock %}
+
+{% block extra_head %}
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background-color: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-      color: #333;
-    }
-
     .header {
       background: linear-gradient(90deg, {{ equipe.cor }}, #000000);
       color: white;
@@ -46,6 +38,7 @@
       font-size: 2.8rem;
       font-weight: 800;
       letter-spacing: 1px;
+      font-family: 'Orbitron', sans-serif;
     }
 
     .section {
@@ -54,6 +47,7 @@
       border-radius: 16px;
       margin-top: 30px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      color: #333;
     }
 
     .section h2 {
@@ -138,6 +132,7 @@
       display: flex;
       align-items: center;
       box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      color: #333;
     }
 
     .vs-icon {
@@ -171,9 +166,9 @@
       background: #c00500;
     }
   </style>
-</head>
-<body>
+{% endblock %}
 
+{% block content %}
   <div class="header">
     {% if equipe.logo %}
       <img src="{{ equipe.logo }}" alt="{{ equipe.nome }}">
@@ -246,38 +241,41 @@
     <div class="section">
       <h2>📈 Resultados de {{ piloto.nome }} (#{{ piloto.numero }})</h2>
       <canvas id="grafico-{{ piloto.numero }}" height="120"></canvas>
-      <script>
-        const ctx{{ piloto.numero }} = document.getElementById('grafico-{{ piloto.numero }}').getContext('2d');
-        new Chart(ctx{{ piloto.numero }}, {
-          type: 'line',
-          data: {
-            labels: [{% for r in piloto.resultados %}'{{ r.corrida }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
-            datasets: [{
-              label: 'Pontos',
-              data: [{% for r in piloto.resultados %}{{ r.pontos }}{% if not forloop.last %}, {% endif %}{% endfor %}],
-              borderColor: '{{ equipe.cor }}',
-              backgroundColor: '{{ equipe.cor }}33',
-              tension: 0.3,
-              fill: true,
-              pointRadius: 4,
-              pointBackgroundColor: '#fff',
-              pointBorderColor: '{{ equipe.cor }}'
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: { beginAtZero: true }
-            }
-          }
-        });
-      </script>
     </div>
   {% endfor %}
 
   <div class="back-button">
-    <a href="{% url 'ranking_equipes' %}">⬅ Voltar ao Ranking de Equipes</a>
+    <a href="{% url 'public_home' %}">⬅ Voltar ao Início</a>
   </div>
+{% endblock %}
 
-</body>
-</html>
+{% block extra_js %}
+  {% for piloto in ranking_pilotos %}
+    <script>
+      const ctx{{ piloto.numero }} = document.getElementById('grafico-{{ piloto.numero }}').getContext('2d');
+      new Chart(ctx{{ piloto.numero }}, {
+        type: 'line',
+        data: {
+          labels: [{% for r in piloto.resultados %}'{{ r.corrida }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+          datasets: [{
+            label: 'Pontos',
+            data: [{% for r in piloto.resultados %}{{ r.pontos }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+            borderColor: '{{ equipe.cor }}',
+            backgroundColor: '{{ equipe.cor }}33',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: '#fff',
+            pointBorderColor: '{{ equipe.cor }}'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    </script>
+  {% endfor %}
+{% endblock %}
